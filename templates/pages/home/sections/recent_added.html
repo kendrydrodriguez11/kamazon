@@ -1,0 +1,65 @@
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <section
+            class="bg-gradient-to-br from-kamazon-teal to-kamazon-teal-light rounded-2xl p-4 md:p-8 mb-8 md:mb-12 text-white"
+            data-product-url-base="{% url 'commerce:product-detail' 0 %}">
+        <h2 class="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8">Productos Nuevos</h2>
+        <div id="recent-added-container" class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+        </div>
+
+        <template id="recent-added-template">
+            <div class="bg-white/95 rounded-xl md:rounded-2xl p-6 md:p-8 shadow-lg hover:-translate-y-2 transition-transform cursor-pointer">
+                <div class="w-full h-32 md:h-48 lg:h-56 bg-gray-100 rounded-lg md:rounded-xl flex items-center justify-center mb-4 md:mb-6 overflow-hidden">
+                    <img src="" alt="" class="w-full h-full object-cover">
+                </div>
+                <h3 class="font-bold text-kamazon-sand mb-2 md:mb-3 text-base md:text-lg lg:text-xl"></h3>
+                <p class="text-kamazon-gray text-xl md:text-2xl lg:text-3xl font-bold"></p>
+            </div>
+        </template>
+    </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('{% url 'api:product-recent-added' %}')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('recent-added-container');
+                    const template = document.getElementById('recent-added-template');
+
+                    const section = document.querySelector('section[data-product-url-base]');
+                    let urlBase = section.dataset.productUrlBase;
+
+                    urlBase = urlBase.replace(/0\/?$/, '');
+
+                    data.forEach(product => {
+                        const productClone = template.content.cloneNode(true);
+
+                        const imgElement = productClone.querySelector('img');
+                        imgElement.src = product.image;
+                        imgElement.alt = product.name;
+
+                        const titleElement = productClone.querySelector('h3');
+                        titleElement.textContent = product.name;
+
+                        const priceElement = productClone.querySelector('p');
+                        priceElement.textContent = `$${product.price}`;
+
+                        const productCard = productClone.querySelector('.bg-white\\/95');
+                        productCard.addEventListener('click', () => {
+                            window.location.href = `${urlBase}${product.id}/`;
+                        });
+
+                        container.appendChild(productClone);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al cargar los productos:', error);
+
+                    const container = document.getElementById('recent-added-container');
+                    container.innerHTML = `
+                        <div class="col-span-full text-center py-8">
+                            <p class="text-white">Error al cargar los productos recien añadidos. Por favor, intente nuevamente.</p>
+                        </div>
+                    `;
+                });
+        });
+    </script>
+</div>

@@ -1,0 +1,23 @@
+{% extends "layouts/base_root.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block layout %}
+    <main class="bg-kamazon-teal flex items-center justify-center min-h-screen">
+        <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
+            <h1 class="text-2xl font-bold mb-4 text-center">Reconocimiento Facial</h1>
+            <div class="relative h-64 bg-gray-200 rounded-lg overflow-hidden">
+                <canvas id="video" class="w-full h-full"></canvas>
+            </div>
+            <p id="message" class="mt-4 text-center text-red-500 text-sm"></p>
+            <div class="mt-4 text-center">
+                <a href="{% url 'settings:profile-detail' %}" class="bg-kamazon-teal text-white px-4 py-2 rounded-lg cursor-pointer">Cerrar</a>
+            </div>
+        </div>
+    </main>
+    <script>
+        const userId = "{{ user.id }}";
+        const redirectUrl = "{% url 'settings:profile-detail' %}";
+    </script>
+    <script src="{% static 'js/facial-register.js' %}"></script>
+{% endblock layout %}

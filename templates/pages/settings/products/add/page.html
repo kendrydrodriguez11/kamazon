@@ -1,0 +1,64 @@
+{% extends 'layouts/base_layout.html' %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static '/vendor/choices/choices.min.css' %}">
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+    <main class="bg-kamazon-base min-h-screen">
+        <div class="container mx-auto px-4 py-8">
+            <div class="mb-4">
+                <a href="{% url 'settings:profile-products' %}" class="text-kamazon-primary hover:text-kamazon-primary-dark">
+                    <i class="fas fa-arrow-left"></i> Back to products
+                </a>
+            </div>
+            {% include 'pages/settings/products/add/components/form.html' %}
+        </div>
+    </main>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'vendor/choices/choices.min.js' %}"></script>
+    <script>
+        const imageInput = document.getElementById('{{ form.image.id_for_label }}');
+        {% if form.image.value and form.image.value.url %}
+            const existingImageUrl = '{{ form.image.value.url }}';
+        {% else %}
+            const existingImageUrl = "{% static 'images/default-product.png' %}";
+        {% endif %}
+        document.addEventListener('DOMContentLoaded', function () {
+            const imagePreview = document.getElementById('image-preview');
+
+            if (existingImageUrl) {
+                imagePreview.src = existingImageUrl;
+            }
+
+            imageInput.addEventListener('change', function () {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        imagePreview.src = e.target.result;
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+    <script>
+        const categories = document.getElementById('{{ form.categories.id_for_label }}');
+        new Choices(categories, {
+            removeItemButton: true,
+            searchEnabled: true,
+            searchChoices: true,
+            placeholder: true,
+            placeholderValue: 'Select a category',
+            noResultsText: 'No results found',
+            itemSelectText: 'Press to select',
+            maxItemCount: categories.options.length,
+            renderChoiceLimit: categories.options.length
+        });
+    </script>
+{% endblock %}

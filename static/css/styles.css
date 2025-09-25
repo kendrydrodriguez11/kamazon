@@ -1,0 +1,30 @@
+.choices__list--multiple .choices__item {
+    background-color: #007E6D;
+    color: #fff;
+    border-radius: 3px;
+    margin: 2px;
+    padding: 5px 10px;
+    border: 1px solid #007E6D;
+}
+
+.choices__list--multiple .choices__item[data-choice-selected] {
+    background-color: #004F44;
+    color: #fff;
+}
+
+.choices__list--multiple .choices__item[data-choice] {
+    background-color: #007E6D;
+    color: #fff;
+}
+
+.choices__list--multiple .choices__item.is-highlighted {
+    background-color: #004F44;
+}
+
+[data-tab]:not(button) {
+    display: none;
+}
+
+[data-tab]:not(button).active {
+    display: block;
+}

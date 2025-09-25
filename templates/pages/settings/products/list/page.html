@@ -1,0 +1,27 @@
+{% extends "layouts/settings_layout.html" %}
+
+{% block settings_title %}
+    Mis Productos
+{% endblock settings_title %}
+
+{% block settings_description %}
+    Aquí puedes gestionar tu inventario de productos, añadir nuevos productos y ver los existentes.
+{% endblock settings_description %}
+
+{% block settings_content %}
+    <div class="flex flex-col sm:flex-row mb-8 justify-end">
+        <a href="{% url 'settings:profile-product-create' %}"
+           class="inline-flex items-center px-6 py-3 bg-kamazon-teal text-white font-semibold rounded-xl hover:bg-kamazon-teal-dark shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5">
+            <i class="fas fa-plus mr-2"></i>
+            Añadir Producto
+        </a>
+    </div>
+
+    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+        {% include 'pages/settings/products/list/components/table.html' %}
+    </div>
+
+    <div class="mt-8">
+        {% include 'components/pagination.html' %}
+    </div>
+{% endblock settings_content %}

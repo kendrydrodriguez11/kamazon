@@ -1,0 +1,9 @@
+{% extends "layouts/authentication_layout.html" %}
+
+{% block content %}
+    {% include "pages/authentication/register/base_form.html" %}
+{% endblock content %}
+
+{% block footer %}
+    <p>¿Ya estás registrado? <a href="{% url 'commerce:authentication-login' %}" class="text-kamazon-teal-dark">Inicia sesión</a></p>
+{% endblock footer %}

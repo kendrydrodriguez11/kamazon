@@ -1,0 +1,24 @@
+{% extends "layouts/base_layout.html" %}
+
+{% block content %}
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <h1 class="text-2xl md:text-3xl font-bold text-kamazon-sand text-center mb-6 md:mb-8">Categorías</h1>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+            {% for category in categories %}
+                <a href="{% url 'commerce:products-list' %}?category={{ category.id }}"
+                   class="bg-white rounded-xl md:rounded-2xl p-8 md:p-10 text-center shadow-lg hover:-translate-y-2 hover:border-kamazon-teal transition-all cursor-pointer border-2 border-transparent">
+                    <img src="{{ category.image.url }}" alt="{{ category.name }}"
+                         class="w-20 h-20 md:w-28 md:h-28 lg:w-32 lg:h-32 mb-6 md:mb-8 mx-auto object-contain">
+                    <h3 class="font-bold text-kamazon-sand text-base md:text-xl lg:text-2xl">{{ category.name }}</h3>
+                </a>
+            {% empty %}
+                <div class="col-span-full text-center py-8">
+                    <p class="text-kamazon-sand">No hay categorías disponibles.</p>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="mt-8">
+            {% include 'components/pagination.html' %}
+        </div>
+    </div>
+{% endblock content %}

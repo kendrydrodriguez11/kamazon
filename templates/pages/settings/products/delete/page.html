@@ -1,0 +1,17 @@
+{% extends 'layouts/settings_layout.html' %}
+
+{% block settings_content %}
+    <div class="flex justify-center items-center min-h-screen">
+        <div class="w-full max-w-md">
+            <h1 class="text-2xl font-bold text-center mb-4">Eliminar producto</h1>
+            <p class="text-center text-gray-600">¿Estás seguro de que deseas eliminar el producto <strong>{{ product.name }}</strong>?</p>
+            <form method="POST" class="mt-4">
+                {% csrf_token %}
+                <div class="flex justify-center gap-2">
+                    {% include "components/button.html" with type="submit" extra_classes="bg-red-500 w-full text-white" button_text=submit_text %}
+                    <a href="{% url 'profile-products' %}" class="bg-gray-300 w-full text-black text-center px-4 py-2 rounded-md">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock settings_content %}

@@ -1,0 +1,111 @@
+{% extends 'layouts/base_layout.html' %}
+
+{% block content %}
+    <div class="container mx-auto px-4 py-8">
+        <div class="mb-8">
+            <a href="{% url 'settings:profile-invoices' %}"
+               class="inline-flex items-center text-white bg-kamazon-teal hover:bg-kamazon-teal-dark px-4 py-2 rounded-lg transition-all duration-200 font-medium shadow-md">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Volver a Facturas
+            </a>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+            <div class="px-8 py-8 border-b border-gray-200">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                    <div class="mb-4 md:mb-0">
+                        <h1 class="text-3xl font-bold text-gray-800">Factura #{{ invoice.id }}</h1>
+                        <div class="flex items-center text-gray-700">
+                            <i class="far fa-calendar-alt mr-2"></i>
+                            <span class="text-lg text-gray-500 mt-1">{{ invoice.date|date:"d F Y" }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-6 px-8 py-8">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 bg-kamazon-teal rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-list-alt text-white"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Detalle de Artículos</h2>
+                </div>
+
+                {% if details %}
+                    <div class="space-y-4">
+                        {% for detail in details %}
+                            <div class="group bg-gray-50 hover:bg-kamazon-teal/5 border border-gray-200 hover:border-kamazon-teal/30 rounded-xl p-6 transition-all duration-300">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between">
+                                    <div class="flex-1 mb-4 md:mb-0">
+                                        <h3 class="text-lg font-semibold text-gray-800 mb-2 group-hover:text-kamazon-teal-dark transition-colors">
+                                            {{ detail.description }}
+                                        </h3>
+                                        <div class="flex items-center space-x-6 text-gray-600">
+                                            <div class="flex items-center">
+                                                <i class="fas fa-cubes mr-2 text-kamazon-teal"></i>
+                                                <span class="font-medium">Cantidad: {{ detail.quantity }}</span>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <i class="fas fa-tag mr-2 text-kamazon-teal"></i>
+                                                <span class="font-medium">Precio: ${{ detail.unit_price|floatformat:2 }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-4 text-center">
+                                        <div class="text-sm font-medium text-gray-500 mb-1">Subtotal</div>
+                                        <div class="text-2xl font-bold text-kamazon-teal">
+                                            ${{ detail.amount|floatformat:2 }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-16 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
+                        <div class="w-20 h-20 mx-auto mb-6 bg-gray-200 rounded-full flex items-center justify-center">
+                            <i class="fas fa-inbox text-gray-400 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-600 mb-2">No hay artículos registrados</h3>
+                        <p class="text-gray-500 max-w-md mx-auto">
+                            Esta factura no contiene ningún artículo. Es posible que los datos no se hayan cargado
+                            correctamente.
+                        </p>
+                    </div>
+                {% endif %}
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+                    <div class="bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl border border-gray-200">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-12 h-12 bg-kamazon-teal/10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-calculator text-kamazon-teal text-lg"></i>
+                            </div>
+                            <span class="text-2xl font-bold text-gray-800">${{ invoice.subtotal|floatformat:2 }}</span>
+                        </div>
+                        <h3 class="font-semibold text-gray-600">Subtotal</h3>
+                        <p class="text-sm text-gray-500">Antes de impuestos</p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-xl border border-orange-200">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-12 h-12 bg-orange-500/10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-percentage text-orange-500 text-lg"></i>
+                            </div>
+                            <span class="text-2xl font-bold text-gray-800">{% widthratio invoice.tax_rate 1 100 %}%</span>
+                        </div>
+                        <h3 class="font-semibold text-gray-600">Impuestos</h3>
+                        <p class="text-sm text-gray-500">IVA incluido</p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-kamazon-teal/10 to-kamazon-teal/5 p-6 rounded-xl border-2 border-kamazon-teal/30 md:col-span-2 lg:col-span-1">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-12 h-12 bg-kamazon-teal rounded-lg flex items-center justify-center">
+                                <i class="fas fa-dollar-sign text-white text-lg"></i>
+                            </div>
+                            <span class="text-2xl font-bold text-kamazon-teal">${{ invoice.total|floatformat:2 }}</span>
+                        </div>
+                        <h3 class="font-semibold text-kamazon-teal-dark">Total Final</h3>
+                        <p class="text-sm text-kamazon-teal">Monto a pagar</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

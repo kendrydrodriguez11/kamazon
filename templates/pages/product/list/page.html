@@ -1,0 +1,158 @@
+{% extends "layouts/base_layout.html" %}
+
+{% block content %}
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-800">
+                        {% if category %}
+                            {{ category.name }}
+                        {% else %}
+                            Catálogo de Productos
+                        {% endif %}
+                        {% if request.GET.name %}
+                            <span class="text-kamazon-teal">" {{ request.GET.name }} "</span>
+                        {% endif %}
+                    </h1>
+                    <p class="text-gray-500 mt-1">{{ page_obj.paginator.count }} productos encontrados</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-6">
+            <aside class="lg:w-1/4 w-full">
+                <div class="bg-white rounded-lg shadow-sm p-6 sticky top-24">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold text-gray-800">Filtros</h2>
+                        <a href="
+                                {% url 'commerce:products-list' %}{% if category %}?category={{ category.id }}{% endif %}"
+                           class="text-sm text-kamazon-teal hover:underline">
+                            Limpiar filtros
+                        </a>
+                    </div>
+
+                    <form method="get" action="{% url 'commerce:products-list' %}" class="space-y-6">
+                        {% if category %}
+                            <input type="hidden" name="category" value="{{ category.id }}">
+                        {% endif %}
+                        <div class="border-b border-gray-200 pb-6">
+                            <label for="id_name" class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fa fa-search mr-2 text-kamazon-teal"></i>Buscar productos
+                            </label>
+                            {{ filter.form.name }}
+                        </div>
+                        <div class="border-b border-gray-200 pb-6">
+                            <h3 class="font-medium text-gray-800 mb-4 flex items-center">
+                                <i class="fa fa-tag mr-2 text-kamazon-teal"></i>Rango de precio
+                            </h3>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-1/2">
+                                    {{ filter.form.min_price }}
+                                </div>
+                                <span class="text-gray-400">-</span>
+                                <div class="w-1/2">
+                                    {{ filter.form.max_price }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-b border-gray-200 pb-6">
+                            <div class="flex items-center">
+                                {{ filter.form.in_stock }}
+                                <label for="id_in_stock" class="ml-3 text-gray-700">
+                                    <i class="fa fa-box mr-2 text-kamazon-teal"></i>Solo productos en stock
+                                </label>
+                            </div>
+                        </div>
+                        <div class="pb-2">
+                            <label for="id_order_by" class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fa fa-sort mr-2 text-kamazon-teal"></i>Ordenar por
+                            </label>
+                            {{ filter.form.order_by }}
+                        </div>
+                        <button type="submit" class="w-full py-3 px-4 bg-kamazon-teal hover:bg-kamazon-teal-dark text-white rounded-lg transition-colors duration-300 flex items-center justify-center">
+                            <i class="fa fa-filter mr-2"></i>
+                            <span>Aplicar filtros</span>
+                        </button>
+                    </form>
+                </div>
+            </aside>
+            <div class="lg:w-3/4 w-full">
+                {% if products %}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {% for product in products %}
+                            <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 border border-gray-100 flex flex-col h-full">
+                                <div class="relative p-4 bg-gray-50">
+                                    <a href="{% url 'commerce:product-detail' product.id %}">
+                                        <img src="{{ product.get_image }}" alt="{{ product.name }}" class="w-full h-48 object-contain mx-auto transition-transform hover:scale-105 duration-300">
+                                        {% if product.stock <= 0 %}
+                                            <span class="absolute top-4 right-4 bg-red-500 text-white text-xs px-2 py-1 rounded-full">Agotado</span>
+                                        {% elif product.stock < 5 %}
+                                            <span class="absolute top-4 right-4 bg-amber-500 text-white text-xs px-2 py-1 rounded-full">Pocas unidades</span>
+                                        {% endif %}
+                                    </a>
+                                </div>
+
+                                <div class="p-4 flex flex-col flex-grow">
+                                    <div class="flex-grow">
+                                        <h3 class="font-medium text-gray-900 mb-2 line-clamp-2 min-h-[2.5rem]">
+                                            {{ product.name }}
+                                        </h3>
+
+                                        <div class="flex items-center mt-1 mb-2">
+                                            <span class="text-xl font-bold text-kamazon-teal">${{ product.price }}</span>
+                                        </div>
+
+                                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                                            {% if product.stock > 0 %}
+                                                <i class="fa fa-check-circle text-green-500 mr-1"></i>
+                                                <span>En stock ({{ product.stock }})</span>
+                                            {% else %}
+                                                <i class="fa fa-times-circle text-red-500 mr-1"></i>
+                                                <span>Sin stock</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="flex justify-between items-center pt-2 border-t border-gray-100">
+                                        <a href="{% url 'commerce:product-detail' product.id %}"
+                                           class="text-kamazon-teal hover:text-kamazon-teal-dark">
+                                            <i class="fa fa-eye mr-1"></i>
+                                            Ver detalle
+                                        </a>
+                                        <span class="text-xs text-gray-500 flex items-center">
+                                                <i class="fa fa-chart-line mr-1"></i>
+                                                {{ product.views }}
+                                            </span>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    {% if is_paginated %}
+                        <div class="mt-8">
+                            {% include 'components/pagination.html' %}
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="bg-white rounded-lg shadow-sm p-12 text-center">
+                        <div class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-6">
+                            <i class="fa fa-search text-4xl text-gray-400"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-3">No se encontraron productos</h2>
+                        <p class="text-gray-500 max-w-md mx-auto mb-6">
+                            Intenta con otros términos de búsqueda o ajusta los filtros para encontrar lo que estás
+                            buscando.
+                        </p>
+                        <a href="{% url 'commerce:products-list' %}"
+                           class="inline-flex items-center px-6 py-3 bg-kamazon-teal hover:bg-kamazon-teal-dark text-white rounded-lg transition-colors duration-300">
+                            <i class="fa fa-redo-alt mr-2"></i>
+                            Ver todos los productos
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,19 @@
+{% extends "layouts/settings_layout.html" %}
+
+{% block settings_title %}
+    Lista de Facturas
+{% endblock settings_title %}
+
+{% block settings_description %}
+    Aquí puedes consultar todas tus facturas generadas, revisar los detalles de pagos y descargar comprobantes.
+{% endblock settings_description %}
+
+{% block settings_content %}
+    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+        {% include 'pages/settings/invoice/list/components/table.html' %}
+    </div>
+
+    <div class="mt-8">
+        {% include 'components/pagination.html' %}
+    </div>
+{% endblock settings_content %}

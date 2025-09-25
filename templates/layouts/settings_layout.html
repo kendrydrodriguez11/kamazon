@@ -1,0 +1,45 @@
+{% extends "layouts/base_layout.html" %}
+
+{% block content %}
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+                    <div class="bg-gradient-to-r from-kamazon-teal to-kamazon-teal-light p-6 text-white">
+                        <div class="flex flex-col items-center text-center">
+                            <div class="relative mb-4">
+                                <img class="w-20 h-20 rounded-full border-4 border-white shadow-lg object-cover"
+                                     src="{{ user.get_avatar }}"
+                                     alt="{{ user.get_full_name }}">
+                            </div>
+                            <h3 class="font-bold text-lg mb-1">{{ user.get_full_name }}</h3>
+                            <p class="text-sm opacity-90">@{{ user.username }}</p>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        {% include "pages/settings/components/nav.html" %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3">
+                <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+                    <div class="bg-gradient-to-r from-slate-50 to-slate-100 border-b border-slate-200 p-6">
+                        <h1 class="text-2xl font-bold text-slate-800">
+                            {% block settings_title %}
+                            {% endblock settings_title %}
+                        </h1>
+                        <p class="text-slate-600 mt-1">
+                            {% block settings_description %}
+                            {% endblock settings_description %}
+                        </p>
+                    </div>
+                    <div class="p-6">
+                        {% block settings_content %}
+                        {% endblock settings_content %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

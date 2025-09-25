@@ -1,0 +1,28 @@
+{% extends "components/forms/form_layout.html" %}
+
+{% block controls %}
+    <section class="bg-white p-8 rounded shadow-md w-96">
+        <h2 class="text-2xl text-center font-bold mb-6">{{ title }}</h2>
+        <div class="mb-4 grid grid-cols-2 gap-4">
+            {% include "components/forms/field.html" with field=form.first_name %}
+            {% include "components/forms/field.html" with field=form.last_name %}
+        </div>
+        <div class="mb-4">
+            {% include "components/forms/field.html" with field=form.username %}
+        </div>
+        <div class="mb-4">
+            {% include "components/forms/field.html" with field=form.email %}
+        </div>
+        <div class="mb-4">
+            {% include "components/forms/field.html" with field=form.password1 %}
+        </div>
+        <div class="mb-4">
+            {% include "components/forms/field.html" with field=form.password2 %}
+        </div>
+        <div class="flex justify-center gap-2">
+            {% include "components/button.html" with type="submit" extra_classes="bg-black text-white w-full cursor-pointer" button_text=submit_text %}
+            <a href="{% url 'home' %}"
+               class="bg-gray-300 w-full text-black text-center px-4 py-2 rounded-md">Cancelar</a>
+        </div>
+    </section>
+{% endblock controls %}

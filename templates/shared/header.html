@@ -1,0 +1,355 @@
+{% load static %}
+<header class="bg-kamazon-teal shadow-md px-4 md:px-8 py-4 sticky top-0 z-50">
+    <div class="container mx-auto">
+        <div class="flex items-center justify-between">
+            <a href="{% url 'home' %}" class="flex-shrink-0">
+                <img src="{% static 'images/isotipo.svg' %}" alt="Kamazon Logo" class="h-10 w-auto">
+            </a>
+
+            <nav class="hidden md:flex items-center gap-6 ml-8">
+                <a href="{% url 'commerce:products-list' %}"
+                   class="text-white py-2 border-b-2 border-transparent hover:border-white transition-colors duration-300">
+                    Productos
+                </a>
+                <div class="relative group">
+                    <button class="text-white py-2 border-b-2 border-transparent hover:border-white transition-colors duration-300 flex items-center">
+                        Categorías
+                        <i class="fa-solid fa-chevron-down text-xs ml-1 transition-transform duration-300 group-hover:rotate-180"></i>
+                    </button>
+                    <div class="absolute left-0 top-12 w-56 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top scale-95 group-hover:scale-100 z-50">
+                        <div class="py-2 px-3 border-b border-gray-100">
+                            <span class="text-sm font-medium text-kamazon-sand">Explora nuestras categorías</span>
+                        </div>
+                        <div class="py-2">
+                            <a href="{% url 'commerce:products-list' %}?category=1"
+                               class="block px-4 py-2 text-sm text-gray-700 hover:bg-kamazon-beige/30 hover:text-kamazon-teal transition-colors">Electrónica</a>
+                            <a href="{% url 'commerce:products-list' %}?category=2"
+                               class="block px-4 py-2 text-sm text-gray-700 hover:bg-kamazon-beige/30 hover:text-kamazon-teal transition-colors">Hogar</a>
+                            <a href="{% url 'commerce:products-list' %}?category=3"
+                               class="block px-4 py-2 text-sm text-gray-700 hover:bg-kamazon-beige/30 hover:text-kamazon-teal transition-colors">Moda</a>
+                            <a href="{% url 'commerce:category-list' %}"
+                               class="block px-4 py-2 text-xs text-kamazon-teal font-medium border-t border-gray-100 mt-1 hover:bg-kamazon-beige/30 transition-colors">
+                                Ver todas las categorías →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="flex items-center gap-3 ml-auto">
+                <button id="search-toggle"
+                        class="text-white p-2 rounded-full hover:bg-kamazon-beige/20 transition-colors flex items-center justify-center w-10 h-10">
+                    <i class="fa-solid fa-magnifying-glass text-xl"></i>
+                </button>
+
+                <div class="hidden md:flex relative group">
+                    {% if user.is_authenticated %}
+                        <button class="flex items-center gap-2 p-2 rounded-full hover:bg-kamazon-beige/20 transition-colors">
+                            <img src="{{ user.get_avatar }}" alt="{{ user.username }}"
+                                 class="h-8 w-8 rounded-full border-2 border-white object-cover">
+                            <span class="text-sm text-white">{{ user.username }}</span>
+                            <i class="fa-solid fa-chevron-down text-xs text-gray-500"></i>
+                        </button>
+                        <div class="absolute right-0 top-12 mt-2 w-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top scale-95 group-hover:scale-100 z-50">
+                            <div class="py-3 px-4 border-b border-gray-100">
+                                <p class="text-sm font-medium text-kamazon-sand">Hola, {{ user.username }}</p>
+                                <p class="text-xs text-gray-500 mt-1">{{ user.email }}</p>
+                            </div>
+                            <div class="py-1">
+                                <a href="{% url 'settings:profile-detail' %}"
+                                   class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-kamazon-beige/30 hover:text-kamazon-teal transition-colors">
+                                    <i class="fa-solid fa-gear text-sm w-4 mr-2"></i>
+                                    Configurar perfil
+                                </a>
+                                <a href="{% url 'commerce:authentication-logout' %}"
+                                   class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-kamazon-beige/30 hover:text-kamazon-teal transition-colors">
+                                    <i class="fa-solid fa-right-from-bracket text-sm w-4 mr-2"></i>
+                                    Cerrar sesión
+                                </a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a href="{% url 'commerce:authentication-login' %}"
+                           class="text-white flex items-center gap-2 p-2 rounded-full hover:bg-kamazon-beige/20 transition-colors">
+                            <i class="fa-regular fa-user text-lg"></i>
+                            <span>Ingresar</span>
+                        </a>
+                    {% endif %}
+                </div>
+
+                <a href="{% url 'commerce:cart-detail' %}"
+                   class="hidden md:flex items-center text-white p-2 rounded-full hover:bg-kamazon-beige/20 transition-colors relative">
+                    <i class="fa-regular fa-cart-shopping text-xl"></i>
+                    <span class="absolute -top-1 -right-1 bg-gray-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                        {% if request.user.is_authenticated %}
+                            {{ request.user.cart.items.count|default:"0" }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </span>
+                </a>
+
+                <button id="mobile-menu-toggle"
+                        class="md:hidden text-white p-2 rounded-full hover:bg-kamazon-beige/20 transition-colors flex items-center justify-center w-10 h-10">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div id="search-container"
+     class="hidden border-t border-gray-200 px-4 md:px-8 py-3 bg-gray-50 transition-all duration-300">
+    <div class="container mx-auto">
+        <div class="relative max-w-md mx-auto">
+            <form id="search-form" method="get" action="{% url 'commerce:products-list' %}">
+                <input id="search-input" name="name" type="text" placeholder="Buscar productos..."
+                       class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-kamazon-teal focus:border-transparent">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+                </div>
+                <button type="button" id="search-close"
+                        class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="mobile-drawer" class="fixed inset-0 z-50 lg:hidden hidden">
+    <div id="mobile-overlay" class="fixed inset-0 bg-black/50 transition-opacity"></div>
+    <div id="mobile-menu"
+         class="fixed right-0 top-0 h-full w-80 max-w-[80vw] bg-white shadow-xl transform translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="flex items-center justify-between p-4 border-b border-gray-200 bg-kamazon-teal">
+            <div class="flex items-center space-x-3">
+                {% if user.is_authenticated %}
+                    <img src="{{ user.get_avatar }}" alt="{{ user.username }}"
+                         class="h-10 w-10 rounded-full object-cover">
+                    <div class="text-white">
+                        <p class="font-medium">{{ user.username }}</p>
+                        <p class="text-sm text-kamazon-teal-100">{{ user.email }}</p>
+                    </div>
+                {% else %}
+                    <img src="{% static 'images/default-avatar.png' %}" alt="Usuario"
+                         class="h-10 w-10 rounded-full object-cover">
+                    <div class="text-white">
+                        <p class="font-medium">Invitado</p>
+                        <a href="{% url 'commerce:authentication-login' %}"
+                           class="text-sm text-kamazon-teal-100 hover:underline">Iniciar sesión</a>
+                    </div>
+                {% endif %}
+            </div>
+            <button id="close-drawer" class="p-2 text-white hover:bg-kamazon-teal-dark rounded-lg transition-colors">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-4">
+            <nav class="space-y-2">
+                <a href="{% url 'home' %}"
+                   class="flex items-center space-x-3 p-3 rounded-lg hover:bg-kamazon-beige/30 text-gray-700 hover:text-kamazon-teal transition-colors">
+                    <i class="fa-solid fa-house w-5 text-center"></i>
+                    <span>Inicio</span>
+                </a>
+                <a href="{% url 'commerce:products-list' %}"
+                   class="flex items-center space-x-3 p-3 rounded-lg hover:bg-kamazon-beige/30 text-gray-700 hover:text-kamazon-teal transition-colors">
+                    <i class="fa-solid fa-box w-5 text-center"></i>
+                    <span>Productos</span>
+                </a>
+
+                <div>
+                    <button id="categories-toggle"
+                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-kamazon-beige/30 text-gray-700 hover:text-kamazon-teal transition-colors w-full justify-between">
+                        <div class="flex items-center space-x-3">
+                            <i class="fa-solid fa-list w-5 text-center"></i>
+                            <span>Categorías</span>
+                        </div>
+                        <i id="categories-icon" class="fa-solid fa-chevron-down transition-transform"></i>
+                    </button>
+                    <div id="categories-menu" class="hidden ml-8 mt-2 space-y-1">
+                        <a href="{% url 'commerce:products-list' %}?category=1"
+                           class="block p-2 text-sm text-gray-600 hover:text-kamazon-teal hover:bg-kamazon-beige/20 rounded-lg transition-colors;">Electrónica</a>
+                        <a href="{% url 'commerce:products-list' %}?category=2"
+                           class="block p-2 text-sm text-gray-600 hover:text-kamazon-teal hover:bg-kamazon-beige/20 rounded-lg transition-colors;">Hogar</a>
+                        <a href="{% url 'commerce:products-list' %}?category=3"
+                           class="block p-2 text-sm text-gray-600 hover:text-kamazon-teal hover:bg-kamazon-beige/20 rounded-lg transition-colors;">Moda</a>
+                        <a href="{% url 'commerce:category-list' %}"
+                           class="block p-2 text-sm text-gray-600 hover:text-kamazon-teal hover:bg-kamazon-beige/20 rounded-lg transition-colors; font-medium text-kamazon-teal">Ver
+                            todas →</a>
+                    </div>
+                </div>
+
+                <a href="{% url 'commerce:cart-detail' %}"
+                   class="flex items-center space-x-3 p-3 rounded-lg hover:bg-kamazon-beige/30 text-gray-700 hover:text-kamazon-teal transition-colors justify-between">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-cart-shopping w-5 text-center"></i>
+                        <span>Mi carrito</span>
+                    </div>
+                    <span class="bg-kamazon-teal text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                        {% if request.user.is_authenticated %}
+                            {{ request.user.cart.items.count|default:"0" }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </span>
+                </a>
+            </nav>
+
+            {% if user.is_authenticated %}
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">Mi cuenta</h3>
+                    <nav class="space-y-2">
+                        <a href="{% url 'settings:profile-detail' %}"
+                           class="flex items-center space-x-3 p-3 rounded-lg hover:bg-kamazon-beige/30 text-gray-700 hover:text-kamazon-teal transition-colors">
+                            <i class="fa-solid fa-gear w-5 text-center"></i>
+                            <span>Mi perfil</span>
+                        </a>
+                        <a href="#"
+                           class="flex items-center space-x-3 p-3 rounded-lg hover:bg-kamazon-beige/30 text-gray-700 hover:text-kamazon-teal transition-colors">
+                            <i class="fa-solid fa-file-invoice w-5 text-center"></i>
+                            <span>Mis pedidos</span>
+                        </a>
+                        <a href="{% url 'commerce:authentication-logout' %}"
+                           class="flex items-center space-x-3 p-3 rounded-lg hover:bg-kamazon-beige/30 text-gray-700 hover:text-kamazon-teal transition-colors text-red-600 hover:bg-red-50">
+                            <i class="fa-solid fa-right-from-bracket w-5 text-center"></i>
+                            <span>Cerrar sesión</span>
+                        </a>
+                    </nav>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const elements = {
+            mobileMenuToggle: document.getElementById('mobile-menu-toggle'),
+            searchToggle: document.getElementById('search-toggle'),
+            searchContainer: document.getElementById('search-container'),
+            searchInput: document.getElementById('search-input'),
+            searchForm: document.getElementById('search-form'),
+            searchClose: document.getElementById('search-close'),
+
+            mobileDrawer: document.getElementById('mobile-drawer'),
+            mobileMenu: document.getElementById('mobile-menu'),
+            mobileOverlay: document.getElementById('mobile-overlay'),
+            closeDrawer: document.getElementById('close-drawer'),
+            categoriesToggle: document.getElementById('categories-toggle'),
+            categoriesMenu: document.getElementById('categories-menu'),
+            categoriesIcon: document.getElementById('categories-icon')
+        };
+
+        const state = {
+            isSearchOpen: false,
+            isMobileMenuOpen: false,
+            isCategoriesOpen: false
+        };
+
+        function toggleSearch() {
+            state.isSearchOpen = !state.isSearchOpen;
+            elements.searchContainer.classList.toggle('hidden', !state.isSearchOpen);
+
+            if (state.isSearchOpen) {
+                setTimeout(() => elements.searchInput.focus(), 100);
+            }
+        }
+
+        function openMobileDrawer() {
+            state.isMobileMenuOpen = true;
+            elements.mobileDrawer.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+
+            requestAnimationFrame(() => {
+                elements.mobileMenu.classList.remove('translate-x-full');
+            });
+        }
+
+        function closeMobileDrawer() {
+            state.isMobileMenuOpen = false;
+            elements.mobileMenu.classList.add('translate-x-full');
+
+            setTimeout(() => {
+                elements.mobileDrawer.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            }, 300);
+        }
+
+        function toggleCategories() {
+            state.isCategoriesOpen = !state.isCategoriesOpen;
+            elements.categoriesMenu.classList.toggle('hidden', !state.isCategoriesOpen);
+
+            if (state.isCategoriesOpen) {
+                elements.categoriesIcon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+            } else {
+                elements.categoriesIcon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+            }
+        }
+
+        function handleSearch(event) {
+            event.preventDefault();
+            const searchTerm = elements.searchInput.value.trim();
+
+            if (searchTerm) {
+                const url = new URL('{% url "commerce:products-list" %}', window.location.origin);
+                url.searchParams.set('name', searchTerm);
+                window.location.href = url.toString();
+            }
+        }
+
+        // Add event listeners
+        if (elements.searchToggle) {
+            elements.searchToggle.addEventListener('click', toggleSearch);
+        }
+
+        if (elements.searchClose) {
+            elements.searchClose.addEventListener('click', toggleSearch);
+        }
+
+        if (elements.mobileMenuToggle) {
+            elements.mobileMenuToggle.addEventListener('click', openMobileDrawer);
+        }
+
+        if (elements.closeDrawer) {
+            elements.closeDrawer.addEventListener('click', closeMobileDrawer);
+        }
+
+        if (elements.mobileOverlay) {
+            elements.mobileOverlay.addEventListener('click', closeMobileDrawer);
+        }
+
+        if (elements.categoriesToggle) {
+            elements.categoriesToggle.addEventListener('click', toggleCategories);
+        }
+
+        if (elements.searchForm) {
+            elements.searchForm.addEventListener('submit', handleSearch);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (state.isSearchOpen) toggleSearch();
+                if (state.isMobileMenuOpen) closeMobileDrawer();
+            }
+        });
+
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                if (state.isSearchOpen && window.innerWidth < 768) {
+                    toggleSearch();
+                }
+            }, 100);
+        });
+
+        const drawerLinks = elements.mobileMenu?.querySelectorAll('a:not([href="#"])');
+        if (drawerLinks) {
+            drawerLinks.forEach(link => {
+                link.addEventListener('click', closeMobileDrawer);
+            });
+        }
+    });
+</script>

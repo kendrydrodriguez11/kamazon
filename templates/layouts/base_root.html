@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'vendor/font-awesome/css/fontawesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/font-awesome/css/brands.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/font-awesome/css/light.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/font-awesome/css/regular.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/font-awesome/css/solid.min.css' %}">
+    <script src="{% static '/vendor/tailwind/browser.js' %}"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --color-kamazon-teal: #4A9B8E;
+        --color-kamazon-teal-light: #6DB5A8;
+        --color-kamazon-teal-dark: #357A6F;
+        --color-kamazon-gray: #455A64;
+        --color-kamazon-gray-light: #607D8B;
+        --color-kamazon-gray-dark: #263238;
+        --color-kamazon-beige: #F5E6B8;
+        --color-kamazon-beige-light: #FFF8E1;
+        --color-kamazon-beige-dark: #E8D5A3;
+        --color-kamazon-sand: #B8956B;
+        --color-kamazon-sand-light: #D4B587;
+        --color-kamazon-sand-dark: #9C7F56;
+      }
+    </style>
+    {% block styles %}
+    {% endblock styles %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    {% block layout %}
+    {% endblock layout %}
+    {% block scripts %}
+    {% endblock scripts %}
+</body>
+</html>

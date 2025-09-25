@@ -1,0 +1,79 @@
+{% extends "layouts/authentication_layout.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="flex items-center justify-center gap-8 w-full">
+        <div class="w-full max-w-md px-8">
+            <div class="flex mb-6 bg-gray-100 rounded-lg p-1">
+                <button id="tab-normal"
+                        class="tab-button flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors duration-200 bg-white text-gray-900 shadow-sm">
+                    Login Normal
+                </button>
+                <button id="tab-facial"
+                        class="tab-button flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors duration-200 text-gray-600 hover:text-gray-900">
+                    Login Facial
+                </button>
+            </div>
+
+            <div id="content-normal" class="tab-content">
+                {% include "pages/authentication/login/components/base_form.html" %}
+            </div>
+
+            <div id="content-facial" class="tab-content hidden">
+                {% include "pages/authentication/login/components/base_form_facial.html" %}
+            </div>
+        </div>
+
+        {% include "pages/authentication/login/components/qr_login.html" %}
+    </div>
+{% endblock content %}
+
+{% block footer %}
+    <p>¿No tienes cuenta? <a href="{% url 'commerce:authentication-register' %}" class="text-kamazon-teal-dark">Regístrate</a>
+    </p>
+{% endblock footer %}
+
+{% block scripts %}
+    <script>
+        const loginQR = "{% url 'api:authentication-qrlogin' %}"
+        const checkUserFacial = "{% url 'api:check_user_facial_exists' %}"
+        const loginFacial = "{% url 'api:authentication-facial-login' %}"
+        const redirectURL = "{% url 'home' %}"
+        const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    </script>
+    <script src="{% static '/vendor/qrcode/qrcode.min.js' %}"></script>
+    <script src="{% static 'js/qr-login.js' %}"></script>
+    <script src="{% static 'js/facial-login.js' %}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            function switchTab(targetId) {
+                // Reset all tabs
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('bg-white', 'text-gray-900', 'shadow-sm');
+                    btn.classList.add('text-gray-600', 'hover:text-gray-900');
+                });
+
+                tabContents.forEach(content => {
+                    content.classList.add('hidden');
+                });
+
+                const activeButton = document.getElementById(targetId);
+                const activeContent = document.getElementById('content-' + targetId.replace('tab-', ''));
+
+                activeButton.classList.add('bg-white', 'text-gray-900', 'shadow-sm');
+                activeButton.classList.remove('text-gray-600', 'hover:text-gray-900');
+                activeContent.classList.remove('hidden');
+            }
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    switchTab(button.id);
+                });
+            });
+        });
+    </script>
+{% endblock %}

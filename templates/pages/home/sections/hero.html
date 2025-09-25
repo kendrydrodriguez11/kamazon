@@ -1,0 +1,68 @@
+{% load static %}
+
+<section class="relative bg-kamazon-beige-light overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+        <div class="w-full h-full" style="background-image: url('data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z\' fill=\'%23B8956B\' fill-opacity=\'0.2\' fill-rule=\'evenodd\'/%3E%3C/svg%3E');">
+        </div>
+    </div>
+
+    <div class="container mx-auto px-6 py-12 md:py-18 lg:py-24 relative z-10">
+        <div class="flex flex-col lg:flex-row items-center">
+            <div class="lg:w-1/2 lg:pr-12 mb-12 lg:mb-0">
+                <div class="w-24 h-2 bg-kamazon-sand mb-6 rounded-full"></div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-kamazon-sand leading-tight mb-6 animate-fade-in-down">
+                    Descubre lo extraordinario en <span class="text-kamazon-teal">Kamazon</span>
+                </h1>
+                <p class="text-lg md:text-xl text-kamazon-gray-dark mb-10 max-w-xl">
+                    Explora nuestra colección exclusiva de productos curados especialmente para ti. Calidad y estilo en cada detalle.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="{% url 'commerce:products-list' %}"
+                       class="bg-kamazon-teal hover:bg-kamazon-teal-dark text-white py-3 px-8 rounded-full text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center">
+                        <span>Explorar productos</span>
+                        <svg class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                </div>
+                <div class="flex flex-wrap gap-8 mt-12">
+                    <div class="text-center">
+                        <p class="text-3xl font-bold text-kamazon-teal">1000+</p>
+                        <p class="text-kamazon-sand">Productos</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-3xl font-bold text-kamazon-teal">24h</p>
+                        <p class="text-kamazon-sand">Soporte</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-3xl font-bold text-kamazon-teal">98%</p>
+                        <p class="text-kamazon-sand">Satisfacción</p>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:w-1/2 relative">
+                <div class="grid grid-cols-12 grid-rows-12 gap-4 h-[500px]">
+                    <div class="col-span-8 row-span-12 relative overflow-hidden rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
+                        <img src="{% static 'images/hero/imagen 1.png' %}" alt="Producto destacado"
+                             class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 via-black/40 to-transparent">
+                            <span class="bg-kamazon-teal text-white text-xs px-3 py-1 rounded-full">Destacado</span>
+                            <h3 class="text-white text-xl mt-2 font-medium">Descubre nuevas colecciones</h3>
+                        </div>
+                    </div>
+                    <div class="col-span-4 row-span-6 relative overflow-hidden rounded-2xl shadow-xl transform hover:scale-[1.05] transition-transform duration-500">
+                        <img src="{% static 'images/hero/imagen 2.png' %}" alt="Producto secundario"
+                             class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-kamazon-teal/20 hover:bg-kamazon-teal/10 transition-colors duration-300"></div>
+                    </div>
+                    <div class="col-span-4 row-span-6 relative overflow-hidden rounded-2xl shadow-xl transform hover:scale-[1.05] transition-transform duration-500">
+                        <img src="{% static 'images/hero/imagen 3.png' %}" alt="Producto secundario"
+                             class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-kamazon-sand/20 hover:bg-kamazon-sand/10 transition-colors duration-300"></div>
+                    </div>
+                </div>
+                <div class="absolute -z-10 top-1/2 right-0 transform translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-kamazon-sand/20 rounded-full blur-3xl"></div>
+            </div>
+        </div>
+    </div>
+</section>

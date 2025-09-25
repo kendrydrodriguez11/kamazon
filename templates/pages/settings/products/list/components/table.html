@@ -1,0 +1,95 @@
+{% extends 'components/table_layout.html' %}
+{% block header %}
+    <tr class="bg-kamazon-teal text-white">
+        <th class="px-6 py-4 text-left font-semibold">
+            <div class="flex items-center">
+                <i class="fas fa-tag mr-2"></i>
+                Nombre
+            </div>
+        </th>
+        <th class="px-6 py-4 text-left font-semibold">
+            <div class="flex items-center">
+                <i class="fas fa-dollar-sign mr-2"></i>
+                Precio
+            </div>
+        </th>
+        <th class="px-6 py-4 text-left font-semibold">
+            <div class="flex items-center">
+                <i class="fas fa-list mr-2"></i>
+                Categorías
+            </div>
+        </th>
+        <th class="px-6 py-4 text-left font-semibold">
+            <div class="flex items-center">
+                <i class="fas fa-calendar mr-2"></i>
+                Fecha Añadido
+            </div>
+        </th>
+        <th class="px-6 py-4 text-center font-semibold">
+            <div class="flex items-center justify-center">
+                <i class="fas fa-cog mr-2"></i>
+                Acciones
+            </div>
+        </th>
+    </tr>
+{% endblock header %}
+
+{% block rows %}
+    {% for product in products %}
+        <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors duration-150">
+            <td class="px-6 py-4">
+                <div class="font-medium text-slate-900">{{ product.name }}</div>
+            </td>
+            <td class="px-6 py-4 text-center">
+                <div class="text-kamazon-teal-dark font-medium">
+                    ${{ product.price|floatformat:2 }}
+                </div>
+            </td>
+            <td class="px-6 py-4">
+                <div class="flex flex-wrap gap-1">
+                    {% for category in product.categories.all %}
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-kamazon-teal/10 text-kamazon-teal border border-kamazon-teal/20">
+                            {{ category }}
+                        </span>
+                    {% empty %}
+                        <span class="text-slate-400 text-sm">Sin categorías</span>
+                    {% endfor %}
+                </div>
+            </td>
+            <td class="px-6 py-4">
+                <div class="text-slate-600 text-sm">
+                    {{ product.created_at|date:"d M Y" }}
+                </div>
+            </td>
+            <td class="px-6 py-4">
+                <div class="flex items-center justify-center space-x-2">
+                    <a href="{% url 'settings:profile-product-update' product.id %}"
+                       class="inline-flex items-center px-3 py-1.5 bg-yellow-100 text-yellow-700 rounded-lg hover:bg-yellow-200 transition-colors duration-150 text-sm font-medium">
+                        <i class="fas fa-edit mr-1.5"></i>
+                        Editar
+                    </a>
+                    <a href="{% url 'settings:profile-product-delete' product.id %}"
+                       class="inline-flex items-center px-3 py-1.5 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors duration-150 text-sm font-medium">
+                        <i class="fas fa-trash mr-1.5"></i>
+                        Eliminar
+                    </a>
+                </div>
+            </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td class="px-6 py-12 text-center" colspan="5">
+                <div class="flex flex-col items-center">
+                    <i class="fas fa-box-open text-slate-300 text-6xl mb-4"></i>
+                    <h3 class="text-lg font-medium text-slate-600 mb-2">No tienes productos</h3>
+                    <p class="text-slate-400 mb-4">Comienza añadiendo tu primer producto</p>
+                    <a href="{% url 'settings:profile-product-create' %}"
+                       class="inline-flex items-center px-4 py-2 bg-kamazon-teal text-white rounded-lg hover:bg-kamazon-teal-dark transition-colors duration-150">
+                        <i class="fas fa-plus mr-2"></i>
+                        Añadir Producto
+                    </a>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock rows %}

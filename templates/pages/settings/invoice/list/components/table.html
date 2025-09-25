@@ -1,0 +1,82 @@
+{% extends 'components/table_layout.html' %}
+
+{% block header %}
+    <tr class="bg-kamazon-teal text-white">
+        <th class="px-6 py-4 text-left font-semibold">
+            <div class="flex items-center">
+                <i class="fas fa-calendar-alt mr-2"></i>
+                Fecha
+            </div>
+        </th>
+        <th class="px-6 py-4 text-center font-semibold">
+            <div class="flex items-center justify-end">
+                <i class="fas fa-calculator mr-2"></i>
+                Subtotal
+            </div>
+        </th>
+        <th class="px-6 py-4 text-center font-semibold">
+            <div class="flex items-center justify-end">
+                <i class="fas fa-percentage mr-2"></i>
+                Impuesto
+            </div>
+        </th>
+        <th class="px-6 py-4 text-center font-semibold">
+            <div class="flex items-center justify-end">
+                <i class="fas fa-dollar-sign mr-2"></i>
+                Total
+            </div>
+        </th>
+        <th class="px-6 py-4 text-center font-semibold">
+            <div class="flex items-center justify-center">
+                <i class="fas fa-cog mr-2"></i>
+                Acciones
+            </div>
+        </th>
+    </tr>
+{% endblock header %}
+
+{% block rows %}
+    {% for item in invoices %}
+        <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors duration-150">
+            <td class="px-6 py-4">
+                <div class="font-medium text-slate-900">
+                    {{ item.date|date:"d M Y" }}
+                </div>
+            </td>
+            <td class="px-6 py-4 text-center">
+                <div class="text-slate-700 font-medium">
+                    ${{ item.subtotal|floatformat:2 }}
+                </div>
+            </td>
+             <td class="px-6 py-4 text-center">
+                <div class="text-slate-700 font-medium">
+                    {% widthratio item.tax_rate 1 100 %}%
+                </div>
+            </td>
+            <td class="px-6 py-4 text-center">
+                <div class="text-kamazon-teal-dark font-medium">
+                    ${{ item.total|floatformat:2 }}
+                </div>
+            </td>
+            <td class="px-6 py-4">
+                <div class="flex items-center justify-center">
+                    <a href="{% url 'settings:profile-invoice-detail' item.id %}"
+                       class="inline-flex items-center px-3 py-1.5 bg-kamazon-teal/10 text-kamazon-teal rounded-lg hover:bg-kamazon-teal/20 transition-colors duration-150 text-sm font-medium border border-kamazon-teal/20">
+                        <i class="fas fa-eye mr-1.5"></i>
+                        Ver Detalle
+                    </a>
+                </div>
+            </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td class="px-6 py-12 text-center" colspan="5">
+                <div class="flex flex-col items-center">
+                    <i class="fas fa-file-invoice text-slate-300 text-6xl mb-4"></i>
+                    <h3 class="text-lg font-medium text-slate-600 mb-2">No tienes facturas</h3>
+                    <p class="text-slate-400 mb-4">Las facturas aparecerán aquí cuando realices compras</p>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock rows %}

@@ -1,0 +1,84 @@
+<footer class="bg-kamazon-gray-dark text-white py-12 px-4">
+    <div class="container mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <!-- Brand and About -->
+            <div>
+                <h3 class="text-xl font-bold mb-6">Kamazon</h3>
+                <p class="text-gray-300 mb-6 max-w-xs">Ofrecemos productos de alta calidad con una experiencia de compra
+                    excepcional para nuestros clientes.</p>
+
+                <div class="flex space-x-4">
+                    <a href="#"
+                       class="bg-kamazon-teal hover:bg-kamazon-teal-light text-white w-10 h-10 flex items-center justify-center rounded-full transition-colors duration-200">
+                        <i class="fab fa-twitter fa-fw"></i>
+                    </a>
+                    <a href="#"
+                       class="bg-kamazon-teal hover:bg-kamazon-teal-light text-white w-10 h-10 flex items-center justify-center rounded-full transition-colors duration-200">
+                        <i class="fab fa-facebook-f fa-fw"></i>
+                    </a>
+                    <a href="#"
+                       class="bg-kamazon-teal hover:bg-kamazon-teal-light text-white w-10 h-10 flex items-center justify-center rounded-full transition-colors duration-200">
+                        <i class="fab fa-instagram fa-fw"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-bold mb-6">Enlaces Rápidos</h3>
+                <ul class="space-y-3">
+                    <li>
+                        <a href="{% url 'home' %}"
+                           class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center">
+                            <i class="fas fa-chevron-right text-xs mr-2"></i>
+                            Inicio
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'commerce:products-list' %}"
+                           class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center">
+                            <i class="fas fa-chevron-right text-xs mr-2"></i>
+                            Productos
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'commerce:cart-detail' %}"
+                           class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center">
+                            <i class="fas fa-chevron-right text-xs mr-2"></i>
+                            Carrito
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"
+                           class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center">
+                            <i class="fas fa-chevron-right text-xs mr-2"></i>
+                            Sobre Nosotros
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-bold mb-6">Contáctanos</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <i class="fas fa-envelope text-kamazon-teal-light mr-3 mt-0.5"></i>
+                        <a href="mailto:aterana3@unemi.edu.ec"
+                           class="text-gray-300 hover:text-white transition-colors duration-200">aterana3@unemi.edu.ec</a>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fas fa-phone-alt text-kamazon-teal-light mr-3 mt-0.5"></i>
+                        <span class="text-gray-300">+593 (XX) XXX-XXXX</span>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fas fa-map-marker-alt text-kamazon-teal-light mr-3 mt-0.5"></i>
+                        <span class="text-gray-300">Guayaquil, Ecuador</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-12 pt-8 border-t border-gray-700 text-gray-400 text-center text-sm">
+            <p>&copy; {% now "Y" %} Kamazon. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</footer>

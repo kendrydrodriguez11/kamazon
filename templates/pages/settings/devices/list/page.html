@@ -1,0 +1,129 @@
+{% extends "layouts/settings_layout.html" %}
+
+{% block settings_title %}
+    Dispositivos
+{% endblock settings_title %}
+
+{% block settings_description %}
+    Aquí puedes ver y gestionar los dispositivos que has utilizado para acceder a tu cuenta.
+{% endblock settings_description %}
+
+{% block settings_content %}
+    {% if current_device %}
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold text-slate-800 mb-4 flex items-center">
+                Dispositivo Actual
+            </h2>
+            <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-check text-green-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-lg font-semibold text-slate-800 mb-2">
+                                {{ current_device.os }} - {{ current_device.device_type }}
+                            </h3>
+                            <div class="space-y-1">
+                                <div class="flex items-center text-sm text-slate-600">
+                                    <i class="fas fa-map-marker-alt w-4 mr-2"></i>
+                                    <span>{{ current_device.location }}</span>
+                                </div>
+                                <div class="flex items-center text-sm text-slate-600">
+                                    <i class="fas fa-clock w-4 mr-2"></i>
+                                    <span>Última actividad: {{ current_device.last_activity }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <a href="{% url 'commerce:authentication-logout' %}"
+                           class="inline-flex items-center px-4 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors duration-200 shadow-sm">
+                            <i class="fas fa-sign-out-alt mr-2"></i>
+                            Cerrar Sesión
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if devices %}
+        {% if devices|length > 1 %}
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold text-slate-800 mb-4 flex items-center">
+                    <i class="fas fa-devices text-slate-600 mr-3"></i>
+                    Otros Dispositivos
+                </h2>
+                <div class="space-y-4">
+                    {% for device in devices %}
+                        {% if device != current_device %}
+                            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow duration-200">
+                                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+                                    <div class="flex items-start space-x-4">
+                                        <div class="flex-shrink-0">
+                                            <div class="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center">
+                                                <i class="fas fa-laptop text-slate-600 text-xl"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h3 class="text-lg font-semibold text-slate-800 mb-2">
+                                                {{ device.os }} - {{ device.device_type }}
+                                            </h3>
+                                            <div class="space-y-1">
+                                                <div class="flex items-center text-sm text-slate-600">
+                                                    <i class="fas fa-map-marker-alt w-4 mr-2"></i>
+                                                    <span>{{ device.location }}</span>
+                                                </div>
+                                                <div class="flex items-center text-sm text-slate-600">
+                                                    <i class="fas fa-clock w-4 mr-2"></i>
+                                                    <span>Última actividad: {{ device.last_activity }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <a href="{% url 'settings:profile-device-close-session' device.id %}"
+                                           class="inline-flex items-center px-4 py-2 bg-red-100 text-red-700 font-medium rounded-lg hover:bg-red-200 transition-colors duration-200">
+                                            <i class="fas fa-times mr-2"></i>
+                                            Cerrar Sesión
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <!-- Empty State -->
+        <div class="text-center py-12">
+            <div class="flex flex-col items-center">
+                <i class="fas fa-mobile-alt text-slate-300 text-6xl mb-4"></i>
+                <h3 class="text-lg font-medium text-slate-600 mb-2">No hay dispositivos disponibles</h3>
+                <p class="text-slate-400 mb-6">Aún no tienes dispositivos registrados en tu cuenta</p>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Add Device Section -->
+    <div class="bg-gradient-to-br from-kamazon-teal/5 to-kamazon-teal/10 rounded-xl p-6 border border-kamazon-teal/20">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+            <div>
+                <h3 class="text-lg font-semibold text-slate-800 mb-2 flex items-center">
+                    <i class="fas fa-plus-circle text-kamazon-teal mr-2"></i>
+                    Añadir Nuevo Dispositivo
+                </h3>
+                <p class="text-sm text-slate-600">Registra un nuevo dispositivo para acceder a tu cuenta</p>
+            </div>
+            <a href="{% url 'settings:profile-device-scan' %}"
+               class="inline-flex items-center px-6 py-3 bg-kamazon-teal text-white font-semibold rounded-xl hover:bg-kamazon-teal-dark shadow-lg hover:shadow-xl transition-all duration-200">
+                <i class="fas fa-qrcode mr-2"></i>
+                Escanear Dispositivo
+            </a>
+        </div>
+    </div>
+{% endblock settings_content %}

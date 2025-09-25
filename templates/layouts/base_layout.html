@@ -1,0 +1,12 @@
+{% extends "layouts/base_root.html" %}
+
+{% block layout %}
+    <div class="min-h-dvh flex flex-col bg-kamazon-beige-light text-gray-700 leading-relaxed">
+        {% include "shared/header.html" %}
+        <main class="flex-1">
+            {% block content %}
+            {% endblock content %}
+        </main>
+        {% include "shared/footer.html" %}
+    </div>
+{% endblock layout %}

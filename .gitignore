@@ -1,0 +1,76 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+
+# If you are using Django migrations
+**/migrations/
+**/migrations/__init__.py
+
+# Media files
+media/*
+
+# If you are using Django Compressor
+compressed/
+
+# Virtual environment
+venv/
+ENV/
+env/
+.virtualenv/
+
+# Editor directories and files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+.coverage.*
+
+# Translations
+*.mo
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Pipenv
+Pipfile.lock
+
+# Environments
+.env
+.env.local
+
+# Ignore all log files
+dataset/*
+temp/*
+runs/*
+model/Phi-3-mini-4k-instruct.Q4_0.gguf
