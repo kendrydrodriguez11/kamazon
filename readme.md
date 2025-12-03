@@ -1,6 +1,6 @@
 **Idea del Proyecto:**
 
-Kamazon es un proyecto de programación diseñado para el aprendizaje universitario, inspirado en la idea de negocio de Amazon. El proyecto se enfoca en la creación de una aplicación web que permita a los usuarios registrados comprar productos de diversas categorías, así como a los vendedores publicar productos y gestionar sus ventas.
+FaceCommerce es un proyecto de programación diseñado para el aprendizaje universitario, inspirado en la idea de negocio de Amazon. El proyecto se enfoca en la creación de una aplicación web que permita a los usuarios registrados comprar productos de diversas categorías, así como a los vendedores publicar productos y gestionar sus ventas.
 
 ---
 **Tecnologias Utilizadas:**
@@ -13,7 +13,7 @@ Kamazon es un proyecto de programación diseñado para el aprendizaje universita
 **Instalacion:**
 1. Clonar el repositorio
 ```bash
-https://github.com/kendrydrodriguez11/kamazon.git
+https://github.com/kendrydrodriguez11/FaceCommerce.git
 ```
 2. Instalar las dependencias
 ```bash
