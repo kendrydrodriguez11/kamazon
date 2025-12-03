@@ -13,7 +13,7 @@ Kamazon es un proyecto de programación diseñado para el aprendizaje universita
 **Instalacion:**
 1. Clonar el repositorio
 ```bash
-git clone https://github.com/aterana3/Kamazon-fork.git
+https://github.com/kendrydrodriguez11/kamazon.git
 ```
 2. Instalar las dependencias
 ```bash
